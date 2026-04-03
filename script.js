@@ -1,51 +1,68 @@
-//Number
+const container = document.querySelector("#container");
 const gridInput = document.querySelector("#gridInput");
 const resetBtn = document.querySelector("#resetBtn");
+const resizeBtn = document.querySelector("#resizeBtn");
+const modeBtn = document.querySelector("#modeBtn");
 
-//Container
-const container = document.querySelector("#container");
-container.style.aspectRatio = "1/1";
-container.style.display = "flex";
+let isDrawing = false;
+let isRandomMode = false;
 
-container.style.border = "1px solid black";
+// Mouse hold drawing
+document.body.addEventListener("mousedown", () => (isDrawing = true));
+document.body.addEventListener("mouseup", () => (isDrawing = false));
 
-const buildGrid = () => {
+function getRandomColor() {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function buildGrid(size) {
   container.innerHTML = "";
-  const grid = parseInt(gridInput.value);
-  for (i = 0; i < grid; i++) {
-    const gridRow = document.createElement("div");
+  container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
-    gridRow.style.display = "flex";
-    gridRow.style.flexDirection = "column";
-    gridRow.style.flex = "1";
+  const fragment = document.createDocumentFragment();
 
-    for (j = 0; j < grid; j++) {
-      const gridColumn = document.createElement("div");
+  for (let i = 0; i < size * size; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
 
-      gridColumn.style.flex = "1";
-      gridColumn.style.border = "1px solid black";
+    cell.addEventListener("mouseover", () => {
+      if (!isDrawing) return;
 
-      gridColumn.addEventListener("mouseenter", () => {
-        gridColumn.style.backgroundColor = "black";
-      });
+      cell.style.backgroundColor = isRandomMode ? getRandomColor() : "black";
+    });
 
-      gridRow.appendChild(gridColumn);
-    }
-
-    container.appendChild(gridRow);
+    fragment.appendChild(cell);
   }
-};
 
-gridInput.addEventListener("input", () => {
-  if (gridInput.value > 100) gridInput.value = 100;
-  if (gridInput.value < 1) gridInput.value = 1;
-  buildGrid();
-});
+  container.appendChild(fragment);
+}
 
+// Reset grid
 resetBtn.addEventListener("click", () => {
-  container
-    .querySelectorAll("div")
-    .forEach((cell) => (cell.style.backgroundColor = ""));
+  document.querySelectorAll(".cell").forEach((cell) => {
+    cell.style.backgroundColor = "";
+  });
 });
 
-buildGrid();
+// Resize grid
+resizeBtn.addEventListener("click", () => {
+  let size = parseInt(gridInput.value);
+  if (size > 100) size = 100;
+  if (size < 1) size = 1;
+
+  gridInput.value = size;
+  buildGrid(size);
+});
+
+// Toggle mode
+modeBtn.addEventListener("click", () => {
+  isRandomMode = !isRandomMode;
+  modeBtn.textContent = isRandomMode ? "Mode: Rainbow" : "Mode: Black";
+});
+
+// Initial render
+buildGrid(30);
