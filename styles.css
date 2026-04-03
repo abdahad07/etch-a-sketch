@@ -2,13 +2,61 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: system-ui;
 }
 
 body {
-  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #0f172a;
+  color: white;
+}
+
+.app {
   width: 90vmin;
 }
 
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+input,
+button {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+input {
+  width: 80px;
+}
+
+button {
+  background: #1e293b;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #334155;
+}
+
 #container {
-  margin-top: 16px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cell {
+  border: 1px solid #e2e8f0;
+  transition: background 0.1s;
 }
