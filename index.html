@@ -3,22 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Sketch Grid</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
   <body>
-    <div>
-      <button id="resetBtn">Reset</button>
-      <input
-        id="gridInput"
-        placeholder="Enter rows"
-        type="number"
-        min="1"
-        max="100"
-        value="30"
-      />
+    <div class="app">
+      <div class="controls">
+        <input id="gridInput" type="number" min="1" max="100" value="30" />
+        <button id="resizeBtn">Resize</button>
+        <button id="resetBtn">Clear</button>
+        <button id="modeBtn">Mode: Black</button>
+      </div>
+
+      <div id="container"></div>
     </div>
-    <div id="container"></div>
   </body>
 </html>
