@@ -7,7 +7,7 @@ const modeBtn = document.querySelector("#modeBtn");
 let isDrawing = false;
 let isRandomMode = false;
 
-// Mouse hold drawing
+// Enable click + drag drawing
 document.body.addEventListener("mousedown", () => (isDrawing = true));
 document.body.addEventListener("mouseup", () => (isDrawing = false));
 
@@ -20,6 +20,7 @@ function getRandomColor() {
 
 function buildGrid(size) {
   container.innerHTML = "";
+
   container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
@@ -41,7 +42,7 @@ function buildGrid(size) {
   container.appendChild(fragment);
 }
 
-// Reset grid
+// Clear grid
 resetBtn.addEventListener("click", () => {
   document.querySelectorAll(".cell").forEach((cell) => {
     cell.style.backgroundColor = "";
@@ -51,6 +52,8 @@ resetBtn.addEventListener("click", () => {
 // Resize grid
 resizeBtn.addEventListener("click", () => {
   let size = parseInt(gridInput.value);
+
+  if (isNaN(size)) size = 30;
   if (size > 100) size = 100;
   if (size < 1) size = 1;
 
@@ -58,11 +61,11 @@ resizeBtn.addEventListener("click", () => {
   buildGrid(size);
 });
 
-// Toggle mode
+// Toggle drawing mode
 modeBtn.addEventListener("click", () => {
   isRandomMode = !isRandomMode;
   modeBtn.textContent = isRandomMode ? "Mode: Rainbow" : "Mode: Black";
 });
 
-// Initial render
+// Initial grid
 buildGrid(30);
